@@ -125,3 +125,44 @@ class AnchorBoxGenerator(BaseAnchorGenerator):
                 (F.expand_dims(grids, axis=1) + F.expand_dims(base_anchor, axis=0)).reshape(-1, 4)
             )
         return all_anchors
+
+class AnchorPointGenerator(BaseAnchorGenerator):
+    """default anchor point generator, usually used in anchor-free methods.
+    This class generate anchors by feature map in level.
+    Args:
+        num_anchors (int): number of anchors per location
+        strides (list): strides of inputs.
+        offset (float): center point offset. default is 0.5.
+    """
+
+    # pylint: disable=dangerous-default-value
+    def __init__(
+        self,
+        num_anchors: int = 1,
+        strides: list = [4, 8, 16, 32, 64],
+        offset: float = 0.5,
+    ):
+        super().__init__()
+        self.num_anchors = num_anchors
+        self.strides = strides
+        self.offset = offset
+        self.num_features = len(strides)
+
+    @property
+    def anchor_dim(self):
+        return 2
+
+    def generate_anchors_by_features(self, sizes, device):
+        all_anchors = []
+        assert len(sizes) == self.num_features, (
+            "input features expected {}, got {}".format(self.num_features, len(sizes))
+        )
+        for size, stride in zip(sizes, self.strides):
+            grid_x, grid_y = create_anchor_grid(size, self.offset, stride, device)
+            grids = F.stack([grid_x, grid_y], axis=1)
+            all_anchors.append(
+                F.broadcast_to(
+                    F.expand_dims(grids, axis=1), (grids.shape[0], self.num_anchors, 2)
+                ).reshape(-1, 2)
+            )
+        return all_anchors
