@@ -28,6 +28,8 @@ class CustomRetinaNetConfig(models.RetinaNetConfig):
             name="cocomini",
             root="val2017",
             ann_file="annotations/instances_val2017.json",
+
+
         )
 
 
