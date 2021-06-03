@@ -4,10 +4,14 @@
 
 基础任务
 【2 ⭐】: 实现Freeanchor/FCOS任意一种
+
 【3 ⭐】: 实现ATSS
+
 【4 ⭐】: 实现Auto-assign/PAA(简化版)任意一种
+
 附加任务
 【0.5 ⭐】：优化基础任务中的label assginment，给出前后测试集指标对比(可截图)和优化思路、自己的理解
+
 【0.5 ⭐】：实现至少两种不同星级的基础任务并比较他们的label assignment(可利用统计、可视化等手段)，给出自己的理解
 
 ## Retinanet的LabelAssignment设计
