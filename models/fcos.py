@@ -6,7 +6,7 @@ import megengine as mge
 import megengine.functional as F
 import megengine.module as M
 
-import detection.layers.det as resnet
+from detection.layers.det import resnet
 from detection import layers
 
 
